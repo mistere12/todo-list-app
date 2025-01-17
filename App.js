@@ -21,8 +21,4 @@ export default function App() {
       </NavigationContainer>
     </Provider>
   );
-
 }
-
-
-

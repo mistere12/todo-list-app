@@ -1,31 +1,27 @@
-
-import React,{useState} from "react";
+import React, { useState } from "react";
 import { StyleSheet, Text, View, TextInput, Button } from "react-native";
 import { useSelector } from "react-redux";
-
 import { addTodo } from "../lib/features/TodoList/service";
 
-export default function TodoForm({navigation}) {
-  const {loading, error}= useSelector((state)=> state.todoList);
-  const [todo,setTodo]=React.useState("");
+export default function TodoForm({ navigation }) {
+  const { loading, error } = useSelector((state) => state.todoList);
+  const [todo, setTodo] = useState("");
 
-  function saveTodo (params){
+  function saveTodo() {
     addTodo({
-      title:todo,
-      completed : false ,
+      title: todo,
+      completed: false,
     });
     navigation.goBack();
+  }
 
+  if (loading) {
+    return <Text style={styles.loading}>loading...</Text>;
   }
-  if (loading === true) {
-    return <Text style={styles.loading}>loading...</Text>
+  if (error) {
+    return <Text style={styles.error}>error...</Text>;
   }
-  if (error === true) {
-    return <Text style={styles.error}>error...</Text>
-  }
-  
 
-  
   return (
     <>
       <View style={styles.container}>
@@ -35,52 +31,50 @@ export default function TodoForm({navigation}) {
           onPress={() => navigation.goBack()}
         />
         <Text style={styles.title}>Todolist Form</Text>
-        <TextInput placeholder="search" onChangeText={setTodo} style={styles.input}></TextInput>
-        <Button title= "save Todo" onPress={saveTodo}/>
+        <TextInput
+          placeholder="Enter a task"
+          onChangeText={setTodo}
+          style={styles.input}
+        />
+        <Button title="Save Todo" onPress={saveTodo} />
       </View>
     </>
   );
-
 }
+
 const styles = StyleSheet.create({
-  loading:{
-    color: "#fff",
-    backgroundColor: "#F0F0F0",
-    Text: "#3333333",
-    width: 400,
+  loading: {
+    color: "#333",
+    backgroundColor: "#f0f0f0",
     padding: 10,
+    textAlign: "center",
   },
- error:{
-    color: "#fff",
-    backgroundColor: "#F0F0F0",
-    Text: "#3333333",
-    width: 400,
+  error: {
+    color: "#333",
+    backgroundColor: "#f0f0f0",
     padding: 10,
+    textAlign: "center",
   },
   backButton: {
-    color: "#fff",
-    backgroundColor: "#F0F0F0",
-    Text: "#3333333",
-    width: 400,
-    padding: 10,
+    marginBottom: 20,
   },
   container: {
     flex: 1,
-    backgroundColor: "#b0b6fc",
-    fontSize: 100,
+    backgroundColor: "#ffe6e6",
     alignItems: "center",
+    justifyContent: "center",
+    padding: 20,
   },
   title: {
-    fontSize: 60,
-    fontWeight: "600",
-    fontFamily: "gothic, sans-serif",
+    fontSize: 24,
+    marginBottom: 20,
   },
   input: {
-    color: "#fff",
-    backgroundColor: "plum",
-    Text: "#3333333",
-    width: 400,
+    width: "100%",
     padding: 10,
-    margin: 25,
+    borderColor: "#ffccd5",
+    borderWidth: 1,
+    marginBottom: 20,
+    backgroundColor: "#ffccd5",
   },
 });
